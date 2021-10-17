@@ -1,20 +1,44 @@
-package calculator;
+package com.xpeppers.tdd;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
-class StringCalculatorShould {
+public class StringCalculatorTest {
 
-    @Test
-    void empty_string_should_return_0() {
-        StringCalculator stringCalculator = new StringCalculator();
-        assertEquals(0, stringCalculator.add(""));
-    }
+	@Test
+	public void isZeroForAnEmptyString() {
+		verifyAdd(0, "");
+	}
 
-    @Test
-    void string_with_single_number_should_return_number_as_int() {
-        StringCalculator stringCalculator = new StringCalculator();
-        assertEquals(1, stringCalculator.add("1"));
-    }
+	@Test
+	public void isJustTheNumberForAStringWithJustTheNumber() {
+		verifyAdd(1, "1");
+	}
+
+	@Test
+	public void sumsTheTwoNumbersForAStringOfCommaSeparatedNumbers() {
+		verifyAdd(3, "1,2");
+	}
+
+	@Test
+	public void sumsAnUnknownAmountOfCommaSeparatedNumbers() {
+		verifyAdd(1 + 2 + 3 + 4, "1,2,3,4");
+	}
+
+	@Test
+	public void canHandleNewLinesAsNumberDelimiter() {
+		verifyAdd(1 + 2 + 3 + 4, "1\n2,3\n4");
+	}
+
+	@Test
+	public void supportsDifferentDelimiters() throws Exception {
+		verifyAdd(1 + 2 + 3 + 4, "//[***]\n1***2***3***4");
+	}
+
+	private void verifyAdd(int expected, String stringOfNumbers) {
+		int result = StringCalculator.add(stringOfNumbers);
+		assertEquals(expected, result);
+	}
+
 }
